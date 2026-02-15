@@ -1,0 +1,17 @@
+:root {
+    --background-color: rgba(0, 0, 0, 0.822);
+    --text-color: white;
+}
+
+body {
+    /* background-color: var(--background-color); */
+    /* color: var(--text-color); */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(../assets/images/pexels-pavel-danilyuk-8112199.jpg);
+    background-size: cover;
+    background-position: no-repeat;
+
+}
+
