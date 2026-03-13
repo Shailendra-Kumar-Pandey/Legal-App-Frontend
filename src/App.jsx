@@ -1,13 +1,16 @@
 import Login from "./Component/Login"
-import Navbar from "./Component/Navbar"
+import { Route, Routes } from 'react-router-dom';
+import NotFound from "./Component/NotFound";
 
 
 function App() {
 
   return (
     <>
-      <Navbar />
-      <Login />
+      <Routes>
+        <Route path="/" element={<Login />}/>
+        <Route path="*" element={<NotFound/>}/>
+      </Routes>      
     </>
   )
 }
