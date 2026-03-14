@@ -20,10 +20,10 @@ const Login = () => {
 
               <form action="">
                 <label htmlFor="email" className="text-l">Email</label>
-                <input type="email" id="email" placeholder=" ✉  you@example.com" className="w-full p-1 border-1 border-gray-100 outline-gray-900"/>
+                <input type="email" id="email" placeholder=" ✉  you@example.com" className="w-full p-1 rounded-sm border-2 border-gray-200 outline-gray-900"/>
 
                 <label htmlFor="password" className="text-l">Password</label>
-                <input type="password" id="password" placeholder="🔒 ********"  className="w-full p-1 border-gray-100 border-1 outline-gray-900"/>
+                <input type="password" id="password" placeholder="🔒 ********"  className="w-full p-1 rounded-sm border-gray-200 border-2 outline-gray-900"/>
 
                 <button className="w-full bg-blue-600 rounded-md mt-2 p-1 text-sm text-gray-300 hover:bg-sky-700 hover:text-white cursor-pointer">Sign In</button>
               </form>
