@@ -1,7 +1,7 @@
 import Login from "./Component/Login"
 import { Route, Routes } from 'react-router-dom';
 import NotFound from "./Component/NotFound";
-import ClientPortal from "./Component/ClientPortal";
+import AdminPanel from "./Component/AdminPanel";
 
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />}/>
-        <Route path="/clientPortal" element={<ClientPortal />}/>
+        <Route path="/adminPanel" element={<AdminPanel />}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>      
     </>
