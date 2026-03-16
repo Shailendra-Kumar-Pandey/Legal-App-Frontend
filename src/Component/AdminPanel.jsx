@@ -7,10 +7,10 @@ function AdminPanel() {
 
 
   return (
-    <div className='w-full h-screen bg-gray-300'>
+    <div className='w-full h-screen bg-gray-300 md:flex md:flex-row'>
 
 
-        <div className='w-full h-1/12 bg-gray-900 flex flex-row justify-between md:w-1/5 md:h-screen'>
+        <div className='w-full h-1/12 bg-gray-900 flex flex-row justify-between md:w-1/6 md:h-screen'>
             <div className="flex gap-2 font-serif text-xl p-3 ">
               <i className="fa-solid fa-scale-balanced text-blue-500 text-xl pt-1"></i>
               <h1 className="text-gray-300 font-bold text-center">LegalDesk</h1>
@@ -27,11 +27,11 @@ function AdminPanel() {
 
         <div className='md:w-full md:h-screen'>
 
-              <div className='bg-gray-200 text-center p-3 text-gray-900 border-b-2 border-gray-400'>
+              <div className='bg-gray-200 text-center p-3 text-gray-900 border-b-2 border-gray-400 md:flex'>
                 <h1 className='text-center'>Admin Panel</h1>
               </div>
               <h1 className='text-2xl font-bold text-gray-900 p-2 pt-2 pb-2'>Admin DashBoard</h1>
-              <div className='flex gap-5 flex-col'> 
+              <div className='flex gap-5 flex-col lg:flex-row lg:p-5'> 
                 {/* All Lawyers */}
                 <div className='w-11/12 shadow-lg bg-gray-200 m-auto rounded-sm'>
 
