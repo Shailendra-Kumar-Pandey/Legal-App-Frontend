@@ -1,4 +1,39 @@
+// import axios from "axios";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 const Login = () => {
+
+const role = ['Admin', 'Client', 'Lawyer']
+
+const [defaultRole, setRole] = useState('Admin')
+
+const { register, handleSubmit, formState: {errors} } = useForm()
+const navigator = useNavigate();
+
+async function submit(payload){
+  console.log(payload)
+  try {
+   let response = await fetch("http://localhost:5050/auth/userlogin",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            let res = await response.json();
+            console.log(res)
+
+    
+
+  } catch (error) {
+    console.log(error)
+    toast.ma
+  }
+} 
   return (
     <>
       <div className="w-full h-screen bg-gray-300 flex">
@@ -13,30 +48,37 @@ const Login = () => {
               <p className="text-sm text-gray-400">Sign in to your account</p>
 
               <div className="w-full mt-3 mb-3 rounded-2xl">
-                <button className="w-1/3 rounded-2xl pt-1 pb-1 text-gray-400 text-sm hover:bg-gray-900 hover:text-gray-300 focus:text-gray-200 focus:bg-gray-900 cursor-pointer transition-all ">Admin</button>
-                <button className="w-1/3 rounded-2xl pt-1 pb-1 text-gray-400 text-sm hover:bg-gray-900 hover:text-gray-300 focus:text-gray-200 focus:bg-gray-900 cursor-pointer transition-all ">Client</button>
-                <button className="w-1/3 rounded-2xl pt-1 pb-1 text-gray-400 text-sm hover:bg-gray-900 hover:text-gray-300 focus:text-gray-200 focus:bg-gray-900 cursor-pointer transition-all ">Lawyer</button>
+                {
+                  role.map((ele, index)=>{
+                    return(
+                      
+                      <button key={index} className={ defaultRole === ele ? `w-1/3 rounded-2xl pt-1 pb-1 text-gray-300 text-sm
+                       bg-gray-900 cursor-pointer transition-all` : `w-1/3 rounded-2xl pt-1 pb-1 text-gray-400 text-sm
+                       hover:bg-gray-900 hover:text-gray-300 focus:text-gray-200 focus:bg-gray-900
+                        cursor-pointer transition-all`} onClick={()=>{setRole(ele)}}>{ele}</button>
+                    )
+                  })
+                }
               </div>
 
-              <form action="">
+              <form onSubmit={handleSubmit(submit)}>
                 <label htmlFor="email" className="text-l">Email</label>
-                <input type="email" id="email" placeholder=" ✉  you@example.com" className="w-full p-1 rounded-sm border-2 border-gray-200 outline-gray-900"/>
+                <input type="email" id="email" placeholder=" ✉  you@example.com" className="w-full p-1 rounded-sm border-2 border-gray-200 outline-gray-900"
+                {...register('email', {required:true})}/>
+
+                {errors.email && <span className="text-red-600">Email is Required<br/></span> }
 
                 <label htmlFor="password" className="text-l">Password</label>
-                <input type="password" id="password" placeholder="🔒 ********"  className="w-full p-1 rounded-sm border-gray-200 border-2 outline-gray-900"/>
+                <input type="password" id="password" placeholder="🔒 ********"  className="w-full p-1 rounded-sm border-gray-200 border-2 outline-gray-900" 
+                {...register('password', {required:true})}/>
 
-                <button className="w-full bg-blue-600 rounded-md mt-2 p-1 text-sm text-gray-300 hover:bg-sky-700 hover:text-white cursor-pointer">Sign In</button>
+                {errors.password && <span className="text-red-600">Password is Required <br/></span>}
+
+                <button className="w-full bg-blue-600 rounded-md mt-2 p-1 text-sm text-gray-300 hover:bg-sky-700 hover:text-white cursor-pointer" type="submit">Sign In</button>
               </form>
 
-              <p className="text-sm text-gray-400 mt-5">Don't have an account? <span className="text-blue-600 hover:text-blue-700 hover:font-bold cursor-pointer"> Register </span> </p>
+              <p className="text-sm text-gray-400 mt-5">Don't have an account? <span className="text-blue-600 hover:text-blue-700 hover:font-bold cursor-pointer" onClick={()=>{navigator('/Registration')}}> Register </span> </p>
 
-              <div className="w-full mt-5 p-2 border-2 border-gray-200 rounded-lg pl-3">
-                <h1 className="font-bold text-sm text-gray-500">Demo Credentials</h1>
-                <p className="text-sm text-gray-500">Admin: admin@legal.com</p>
-                <p className="text-sm text-gray-500">Client: client@legal.com</p>
-                <p className="text-sm text-gray-500">Lawyar: lawyar@legal.com</p>
-                <p className="text-sm text-gray-500">Password: any</p>
-              </div>
           </div>
         </div>
 
