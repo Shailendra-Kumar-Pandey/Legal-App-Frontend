@@ -21,6 +21,23 @@ function AdminPanel() {
 
               }}></i>
             </div>
+
+            <div className=" hidden md:visible ">
+              <div>
+                <h1>Dashboard</h1>
+              </div>
+              <div>
+                <h1>
+                  Manage Lawyers
+                </h1>
+              </div>
+              <div>
+                <h1>Admin <span>ADMIN</span></h1>
+              </div>
+              <div>
+                <h1>Sign Out</h1>
+              </div>
+            </div>
             
 
         </div>
