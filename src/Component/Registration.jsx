@@ -1,49 +1,9 @@
-// import axios from "axios";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React from 'react'
 
-const Login = () => {
-
-const role = ['Admin', 'Client', 'Lawyer']
-
-const [defaultRole, setRole] = useState('Admin')
-
-const { register, handleSubmit, formState: {errors} } = useForm()
-const navigator = useNavigate();
-
-async function submit(payload){
-  console.log(payload)
-  try {
-   let response = await fetch("http://localhost:5050/auth/userlogin",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-
-            let res = await response.json();
-            console.log(res)
-
-            if(res.status === true){
-              toast.success(res.massage)
-              localStorage.setItem('user', JSON.stringify(res))
-              navigator('/AdminPanel')
-            }else{
-              toast.error(res.massage)
-            }
-    
-
-  } catch (error) {
-    console.log(error)
-    toast.error("Server Error...")
-  }
-} 
+function Registration() {
   return (
     <>
-      <div className="w-full h-screen bg-gray-300 flex">
+        <div className="w-full h-screen bg-gray-300 flex">
         <div className="w-1/2 h-screen flex justify-center items-center">          
           <div className="w-1/2 h-screen flex flex-col justify-center items-center">
             <div className="flex gap-2 font-serif text-xl">
@@ -101,9 +61,9 @@ async function submit(payload){
             </p>
           </div>
         </div>
-      </div>
+      </div>        
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Registration;
