@@ -5,7 +5,7 @@ import AdminPanel from "./Component/AdminPanel";
 import {ToastContainer} from 'react-toastify';
 import Registration from "./Component/Registration";
 import Profile from "./Component/Profile";
-import Protect from "./Component/Protect";
+import ProtectRoute from "./Component/ProtectRoute";
 
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
         <Route path="/adminPanel" element={<AdminPanel />}/>
         <Route path="/registration" element={<Registration />}/>
         <Route path="/profile" element={
-          <Protect>
+          <ProtectRoute>
             <Profile/>
-          </Protect>
+          </ProtectRoute>
           }/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>      
