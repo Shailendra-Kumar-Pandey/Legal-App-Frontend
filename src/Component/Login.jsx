@@ -30,7 +30,7 @@ async function submit(payload){
             if(res.status === true){
               toast.success(res.massage)
               localStorage.setItem('user', JSON.stringify(res))
-              navigator('/AdminPanel')
+              navigator('/profile')
             }else{
               toast.error(res.massage)
             }

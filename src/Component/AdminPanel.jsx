@@ -1,8 +1,6 @@
-// import React, { useState } from 'react'
 
 
 function AdminPanel() {
-//  const [bar, setBar] = useState(false)
 
 
 

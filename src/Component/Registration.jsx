@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Registration() {
   const role = ['Admin', 'Client', 'Lawyer']
@@ -9,12 +10,33 @@ function Registration() {
 
     const { register, handleSubmit, formState: {errors} } = useForm();
 
+    const nevigate = useNavigate();
 
-    function submit(data){
+    async function submit(data){
         console.log(data)
         let payload = {
           ...data,
           role: defaultRole,
+        }
+
+        try {
+          let response = await fetch("http://127.0.0.1:5050/auth/registration", {
+            method: 'POST',
+            headers:{
+              'Content-type':'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+
+          let result = await response.json();
+
+          console.log(result)
+          toast.success(result.message);
+          nevigate('/')
+
+        } catch (error) {
+          console.log(error);
+          toast.error('server error')
         }
 
         console.log(payload)
