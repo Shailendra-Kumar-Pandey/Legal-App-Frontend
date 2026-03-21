@@ -6,6 +6,7 @@ import {ToastContainer} from 'react-toastify';
 import Registration from "./Component/Registration";
 import Profile from "./Component/Profile";
 import ProtectRoute from "./Component/ProtectRoute";
+import CompleteLawyerProfile from "./Component/CompleteLawyerProfile";
 
 
 function App() {
@@ -17,12 +18,13 @@ function App() {
         <Route path="/" element={<Login />}/>
         <Route path="/adminPanel" element={<AdminPanel />}/>
         <Route path="/registration" element={<Registration />}/>
+        <Route path="/completeProfile" element={<CompleteLawyerProfile />}/>
         <Route path="/profile" element={
           <ProtectRoute>
             <Profile/>
           </ProtectRoute>
           }/>
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound />}/>
       </Routes>      
     </>
   )

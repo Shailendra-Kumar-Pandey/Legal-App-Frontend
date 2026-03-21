@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
 
-const role = ['Admin', 'Client', 'Lawyer']
+// const role = ['Admin', 'Client', 'Lawyer']
 
-const [defaultRole, setRole] = useState('Admin')
+// const [defaultRole, setRole] = useState('Admin')
+
+const [isLawyer, setIsLawyer] = useState(false)
 
 const { register, handleSubmit, formState: {errors} } = useForm()
 const navigator = useNavigate();
@@ -32,6 +34,11 @@ async function submit(payload){
               localStorage.setItem('user', JSON.stringify(res))
               navigator('/profile')
             }else{
+              if(res.massage === 'Please complte Profile..'){
+                setIsLawyer(true)
+              }else{
+                setIsLawyer(false)
+              }
               toast.error(res.massage)
             }
     
@@ -54,7 +61,7 @@ async function submit(payload){
               <h1 className="text-2xl font-serif font-bold pt-2 text-gray-900">Welcome Back</h1>
               <p className="text-sm text-gray-400">Sign in to your account</p>
 
-              <div className="w-full bg-gray-300 mt-3 mb-3 rounded-2xl">
+              {/* <div className="w-full bg-gray-300 mt-3 mb-3 rounded-2xl">
                 {
                   role.map((ele, index)=>{
                     return(
@@ -66,7 +73,7 @@ async function submit(payload){
                     )
                   })
                 }
-              </div>
+              </div> */}
 
               <form onSubmit={handleSubmit(submit)}>
                 <label htmlFor="email" className="text-l">Email</label>
@@ -85,6 +92,11 @@ async function submit(payload){
               </form>
 
               <p className="text-sm text-gray-400 mt-5">Don't have an account? <span className="text-blue-600 hover:text-blue-700 hover:font-bold cursor-pointer" > <Link to='/registration'> Register </Link> </span> </p>
+
+                {
+                  isLawyer ? (<p className="text-sm text-gray-400 mt-5">Please Complete Your Profile <span className="text-blue-600 hover:text-blue-700 hover:font-bold cursor-pointer" > <Link to='/completeProfile'> Profile </Link> </span> </p>) : null
+                  
+                }
 
               <div className=" text-gray-900 absolute bottom-2 md:hidden ">
                 <p>

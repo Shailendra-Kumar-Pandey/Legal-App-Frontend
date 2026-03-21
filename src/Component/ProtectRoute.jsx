@@ -3,7 +3,10 @@ import { Navigate } from 'react-router-dom'
 
 function ProtectRoute({children}) {
 
-    let isAuthentication = localStorage.getItem('token');
+    let user = JSON.parse(localStorage.getItem('user'));
+    let isAuthentication = user.token;
+    
+    console.log(isAuthentication)
 
     if(!isAuthentication){
       return <Navigate to='/' />
