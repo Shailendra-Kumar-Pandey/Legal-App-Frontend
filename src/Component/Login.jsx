@@ -30,19 +30,23 @@ async function submit(payload){
             console.log(res)
 
             if(res.status === true){
-              toast.success(res.massage)
+              toast.success(res.message)
               localStorage.setItem('user', JSON.stringify(res))
-              navigator('/profile')
+              if(res.result.role === 'ADMIN'){
+                navigator('/admin-dashboard')
+              }else if(res.result.role === 'CLIENT'){
+                navigator('/client-dashboard')
+              }else if(res.result.role === 'LAWYER'){
+                navigator('/lawyer-dashboard')
+              }
             }else{
-              if(res.massage === 'Please complte Profile..'){
+              if(res.message === 'Please complte Profile..'){
                 setIsLawyer(true)
               }else{
                 setIsLawyer(false)
               }
-              toast.error(res.massage)
+              toast.error(res.message)
             }
-    
-
   } catch (error) {
     console.log(error)
     toast.error("Server Error...")

@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import AdminPanel from "./Nested Components/AdminPanel";
 import AdminTable from './Nested Components/AdminTable'
 
 function AdminDashboard() {
 
-    const [panel, setPanel] = useState(true);
+    let token = JSON.parse(localStorage.getItem('user')).token || "";
+    const [panel, setPanel] = useState(true)
     const [selectedPanel, setSelectedPanel] = useState("Dashboard")
-
     const panelNames = [
         {
             name: "Dashboard",
@@ -17,6 +18,26 @@ function AdminDashboard() {
             classData: "fa-solid fa-user-group text-sm"
         }
     ]
+    async function getAllLawyer(){
+        try {
+            let response = await fetch("http://localhost:5050/admin/getAllLawyers",{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            let res = await response.json();
+            console.log(res)
+        } catch (error) {
+            toast.error("Server Error!")
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        if(token){
+            getAllLawyer()
+        }
+    }, [token])
 
 
     return (
@@ -40,9 +61,9 @@ function AdminDashboard() {
                         </div>
                         <div className="flex flex-col gap-3 p-5 text-gray-400">
                             {
-                                panelNames?.map((ele) => {
+                                panelNames?.map((ele,i) => {
                                     return (
-                                        <div className={
+                                        <div key={i} className={
                                             selectedPanel === ele.name ? `flex items-center text-gray-200  gap-2 p-1.5 bg-gray-800 cursor-pointer
                                             rounded-[5px] text-sm ps-3`: `flex items-center text-sm gap-2 p-1.5 cursor-pointer
                                             rounded-[5px] ps-3`
