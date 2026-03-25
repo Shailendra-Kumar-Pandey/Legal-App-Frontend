@@ -1,6 +1,7 @@
 import React from 'react'
 
-function AdminPanel() {
+function AdminPanel({refrence}) {
+    console.log(refrence)
   return (
     <>
          <h1 className='text-lg font-serif font-bold text-gray-900 p-2'>Admin DashBoard</h1>
@@ -13,7 +14,7 @@ function AdminPanel() {
                             <i className="fa-solid fa-user-group text-3xl text-gray-400 m-2 "></i>
                         </div>
                         <div className=" flex flex-col">
-                            <p className='text-xl font-bold text-gray-900'>5</p>
+                            <p className='text-xl font-bold text-gray-900'>{refrence.total}</p>
                             <h5 className='text-gray-500 text-sm font-semibold mb-1'>Total Lawyers</h5>
                         </div>
                     </div>
@@ -27,7 +28,7 @@ function AdminPanel() {
                             <i className="fa-regular fa-circle-check text-3xl text-green-400 m-2"></i>
                         </div>
                         <div className=" flex flex-col">
-                            <p className='text-xl font-bold text-gray-900'>2</p>
+                            <p className='text-xl font-bold text-gray-900'>{refrence.approved}</p>
                             <h5 className='text-gray-500 text-sm font-semibold mb-1'>Approved</h5>
                         </div>
                     </div>
@@ -41,7 +42,7 @@ function AdminPanel() {
                             <i className="fa-regular fa-clock text-3xl text-yellow-400 m-2"></i>
                         </div>
                         <div className=" flex flex-col">
-                            <p className='text-xl font-bold text-gray-900'>2</p>
+                            <p className='text-xl font-bold text-gray-900'>{refrence.pending}</p>
                             <h5 className='text-gray-500 text-sm font-semibold mb-1'>Pending</h5>
                         </div>
                     </div>
@@ -55,7 +56,7 @@ function AdminPanel() {
                             <i className="fa-solid fa-triangle-exclamation text-3xl text-red-400 m-2"></i>
                         </div>
                         <div className=" flex flex-col">
-                            <p className='text-xl font-bold text-gray-900'>1</p>
+                            <p className='text-xl font-bold text-gray-900'>{refrence.blocked}</p>
                             <h5 className='text-gray-500 text-sm font-semibold mb-1'>Blocked</h5>
                         </div>
                     </div>

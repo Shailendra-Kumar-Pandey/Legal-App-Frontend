@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import AdminPanel from "./Nested Components/AdminPanel";
 import AdminTable from './Nested Components/AdminTable'
 
 function AdminDashboard() {
-
     let token = JSON.parse(localStorage.getItem('user')).token || "";
     const [panel, setPanel] = useState(true)
     const [selectedPanel, setSelectedPanel] = useState("Dashboard")
+    const [lawyerData, setLawyerData] = useState([])
     const panelNames = [
         {
             name: "Dashboard",
@@ -18,6 +18,9 @@ function AdminDashboard() {
             classData: "fa-solid fa-user-group text-sm"
         }
     ]
+    
+    let refrence = useRef({total: 0, approved:0, pending:0, rejected:0, blocked:0, returned:0 });
+
     async function getAllLawyer(){
         try {
             let response = await fetch("http://localhost:5050/admin/getAllLawyers",{
@@ -26,7 +29,21 @@ function AdminDashboard() {
                 }
             })
             let res = await response.json();
-            console.log(res)
+
+            if(res.success === false){
+                toast.success(res.message)
+            }else{
+                let approved = res.result.filter((e)=> e.status === 'APPROVED').length;
+                let blocked = res.result.filter((e)=> e.status === 'BLOCKED').length;
+                let pending = res.result.filter((e)=> e.status === 'PENDING').length;
+                let rejected = res.result.filter((e)=> e.status === 'REJECTED').length;
+                let returned = res.result.filter((e)=> e.status === 'RETURNED').length;
+
+                refrence.current = {total: res?.result?.length, approved:approved, pending:pending, rejected:rejected, blocked:blocked, returned:returned}
+                
+                setLawyerData(res.result)
+            }
+            
         } catch (error) {
             toast.error("Server Error!")
             console.log(error)
@@ -108,7 +125,7 @@ function AdminDashboard() {
 
 
                 {
-                    selectedPanel === "Dashboard" ? <AdminPanel /> : <AdminTable />
+                    selectedPanel === "Dashboard" ? <AdminPanel refrence={refrence.current}  /> : <AdminTable lawyerData={lawyerData} />
                 }
 
 

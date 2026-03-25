@@ -8,7 +8,6 @@ function ClientPanel() {
             <button className='bg-blue-500 text-gray-300 text-sm ps-2  pe-2 pb-1 pt-1 rounded-sm'>Create Case</button>
         </div>     
             <div className='flex gap-5 flex-col lg:flex-row lg:p-5'>
-                {/* All Lawyers */}
                 <div className='w-11/12 shadow-lg bg-gray-50 m-auto rounded-sm'>
 
                     <div className='flex flex-row gap-5 justify-start items-center p-2 m-2 '>
@@ -22,7 +21,6 @@ function ClientPanel() {
                     </div>
 
                 </div>
-                 {/* Pending */}
                 <div className='w-11/12 shadow-lg bg-gray-50 m-auto rounded-sm'>
 
                     <div className='flex flex-row gap-5 justify-start items-center p-2 m-2 '>
@@ -36,7 +34,6 @@ function ClientPanel() {
                     </div>
 
                 </div>
-                {/* Approved */}
                 <div className='w-11/12 shadow-lg bg-gray-50 m-auto rounded-sm'>
 
                     <div className='flex flex-row gap-5 justify-start items-center p-2 m-2 '>
@@ -49,11 +46,8 @@ function ClientPanel() {
                         </div>
                     </div>
 
-                </div>
-               
-                
+                </div>                
             </div>
- 
     </>
   )
 }
