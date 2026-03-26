@@ -11,7 +11,7 @@ const AdminTable = ({lawyerData}) => {
   };
   console.log(lawyerData)
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex  bg-gray-100">
 
       <div className="flex-1 md:p-2">
 
@@ -75,7 +75,7 @@ const AdminTable = ({lawyerData}) => {
 
                       {/* Modal */}
                       {model && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+                        <div className="fixed inset-0 flex items-center justify-center bg-black/25">
 
                           <div className="bg-gray-50 p-6 rounded-lg shadow-lg w-1/2 h-1/2">
                             <button className='text-gray-50 bg-gray-900 rounded-[50%] p-2 absolute right-90 hover:bg-red-500 cursor-pointer' onClick={() => setModel(false)}>X</button>
@@ -131,12 +131,7 @@ const AdminTable = ({lawyerData}) => {
                         </div>
                       )}
 
-                      <select >
-                        <option value="">Select Action</option>
-                        <option value="approved">Approved</option>
-                        <option value="pending">Pending</option>
-                        <option value="blocked">Blocked</option>
-                      </select>
+                     
 
                     {/* {lawyer.status === "PENDING" && (
                       <button className="px-3 py-1 text-xs border-2  cursor-pointer border-green-100 text-green-600 rounded">
