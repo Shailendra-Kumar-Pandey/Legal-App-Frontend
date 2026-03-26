@@ -32,12 +32,12 @@ async function submit(payload){
             if(res.status === true){
               toast.success(res.message)
               localStorage.setItem('user', JSON.stringify(res))
-              if(res.result.role === 'ADMIN'){
+              if(res?.result?.role === 'ADMIN'){
                 navigator('/admin-dashboard')
-              }else if(res.result.role === 'CLIENT'){
-                navigator('/client-dashboard')
-              }else if(res.result.role === 'LAWYER'){
+              }else if(res?.result?.role === 'LAWYER'){
                 navigator('/lawyer-dashboard')
+              }else{
+                navigator('/client-dashboard')
               }
             }else{
               if(res.message === 'Please complte Profile..'){
