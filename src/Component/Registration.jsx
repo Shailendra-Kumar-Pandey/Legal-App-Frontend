@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 
 function Registration() {
   const role = ['Admin', 'Client', 'Lawyer']
+
+  const apiURL = import.meta.env.VITE_API_URL;
   
   const [defaultRole, setRole] = useState('Client')
 
@@ -20,7 +22,7 @@ function Registration() {
         }
 
         try {
-          let response = await fetch("http://127.0.0.1:5050/auth/registration", {
+          let response = await fetch(`${apiURL}/auth/createUser`, {
             method: 'POST',
             headers:{
               'Content-type':'application/json'

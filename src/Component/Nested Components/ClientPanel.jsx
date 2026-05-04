@@ -1,55 +1,36 @@
 import React from 'react'
 
 function ClientPanel() {
-  return (
-    <>
-       <div className='flex justify-between items-center'>
-            <h1 className='text-lg font-serif font-bold text-gray-900 p-2'>Client DashBoard</h1>
-            <button className='bg-blue-500 text-gray-300 text-sm ps-2  pe-2 pb-1 pt-1 rounded-sm'>Create Case</button>
-        </div>     
-            <div className='flex gap-5 flex-col lg:flex-row lg:p-5'>
-                <div className='w-11/12 shadow-lg bg-gray-50 m-auto rounded-sm'>
+    const stats = [
+        { label: "Total Cases", value: 1, icon: "fa-solid fa-folder-open", color: "text-gray-400", bg: "bg-gray-200" },
+        { label: "Open", value: 1, icon: "fa-regular fa-clock", color: "text-yellow-500", bg: "bg-yellow-100" },
+        { label: "Assigned", value: 0, icon: "fa-regular fa-circle-check", color: "text-green-500", bg: "bg-green-100" },
+    ]
 
-                    <div className='flex flex-row gap-5 justify-start items-center p-2 m-2 '>
-                        <div className='bg-gray-300 rounded-lg'>
-                            <i className="fa-solid fa-user-group text-3xl text-gray-400 m-2 "></i>
-                        </div>
-                        <div className=" flex flex-col">
-                            <p className='text-xl font-bold text-gray-900'>1</p>
-                            <h5 className='text-gray-500 text-sm font-semibold mb-1'>Total Cases</h5>
-                        </div>
-                    </div>
-
-                </div>
-                <div className='w-11/12 shadow-lg bg-gray-50 m-auto rounded-sm'>
-
-                    <div className='flex flex-row gap-5 justify-start items-center p-2 m-2 '>
-                        <div className='bg-gray-300 rounded-lg'>
-                            <i className="fa-regular fa-clock text-3xl text-yellow-400 m-2"></i>
-                        </div>
-                        <div className=" flex flex-col">
-                            <p className='text-xl font-bold text-gray-900'>1</p>
-                            <h5 className='text-gray-500 text-sm font-semibold mb-1'>Open</h5>
-                        </div>
-                    </div>
-
-                </div>
-                <div className='w-11/12 shadow-lg bg-gray-50 m-auto rounded-sm'>
-
-                    <div className='flex flex-row gap-5 justify-start items-center p-2 m-2 '>
-                        <div className='bg-gray-300 rounded-lg'>
-                            <i className="fa-regular fa-circle-check text-3xl text-green-400 m-2"></i>
-                        </div>
-                        <div className=" flex flex-col">
-                            <p className='text-xl font-bold  text-gray-900'>0</p>
-                            <h5 className='text-gray-500 text-sm font-semibold mb-1'>Assigned</h5>
-                        </div>
-                    </div>
-
-                </div>                
+    return (
+        <>
+            <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center gap-2 px-2 pt-2">
+                <h1 className="text-base sm:text-lg font-serif font-bold text-gray-900">Client Dashboard</h1>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm px-3 py-1.5 rounded transition-colors">
+                    Create Case
+                </button>
             </div>
-    </>
-  )
+
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 p-2 sm:p-4">
+                {stats.map((stat, i) => (
+                    <div key={i} className="bg-white shadow-md rounded-lg p-4 flex items-center gap-4 hover:shadow-lg transition-shadow">
+                        <div className={`${stat.bg} rounded-lg p-2 flex-shrink-0`}>
+                            <i className={`${stat.icon} ${stat.color} text-2xl sm:text-3xl`} />
+                        </div>
+                        <div>
+                            <p className="text-xl sm:text-2xl font-bold text-gray-900">{stat.value}</p>
+                            <h5 className="text-gray-500 text-xs sm:text-sm font-semibold">{stat.label}</h5>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
+    )
 }
 
 export default ClientPanel
