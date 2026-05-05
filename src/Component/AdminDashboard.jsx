@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import AdminPanel from "./Nested Components/AdminPanel";
 import AdminTable from './Nested Components/AdminTable'
+import Loader from "./Nested Components/Loader";
+import { useLoader } from "../Hooks/useLoader";
 
 function AdminDashboard({ logOutHandler }) {
     let data = JSON.parse(localStorage.getItem('user')) || {};
-    let token = data?.token || ""
+    let token = data?.token || "";
+    const { isloader, showLoader, hideLoader } = useLoader()
     const [panel, setPanel] = useState(true)
     const [selectedPanel, setSelectedPanel] = useState("Dashboard")
     const [lawyerData, setLawyerData] = useState([])
@@ -24,6 +27,7 @@ function AdminDashboard({ logOutHandler }) {
     let refrence = useRef({ total: 0, approved: 0, pending: 0, rejected: 0, blocked: 0, returned: 0 });
 
     async function getAllLawyer() {
+        showLoader();
         try {
             let response = await fetch(`${apiURL}/admin/getAllLawyers`, {
                 headers: {
@@ -45,119 +49,127 @@ function AdminDashboard({ logOutHandler }) {
         } catch (error) {
             toast.error("Server Error!")
             console.log(error)
+        } finally {
+            hideLoader();
         }
     }
 
     useEffect(() => {
-        console.log(token)
-        if (token) getAllLawyer()
+        if (token) getAllLawyer();
     }, [token])
 
     return (
-        <div className="w-full min-h-screen bg-gray-100 flex flex-col md:flex-row">
+        <>
+            <div className="w-full min-h-screen bg-gray-100 flex flex-col md:flex-row">
 
-            {/* ── Sidebar (hidden on mobile, visible md+) ── */}
-            <aside
-                className={`hidden md:flex flex-col justify-between bg-gray-900 h-screen sticky top-0 flex-shrink-0 transition-all duration-300 ${panel ? "w-52 lg:w-64" : "w-14"} overflow-hidden`}
-            >
-                {/* Top */}
-                <div className="flex flex-col w-full">
-                    {/* Brand + toggle */}
-                    <div className="flex items-center justify-between border-b border-gray-700 px-3 py-3">
-                        {panel && (
-                            <div className="flex items-center gap-2 font-serif">
-                                <i className="fa-solid fa-scale-balanced text-blue-500 text-sm" />
-                                <span className="text-gray-300 font-bold text-sm">LegalDesk</span>
-                            </div>
-                        )}
-                        <i
-                            className={`fa-solid fa-bars text-gray-200 cursor-pointer text-sm p-1 ${panel ? "" : "m-auto"}`}
-                            onClick={() => setPanel(!panel)}
-                        />
+                {/* ── Sidebar (hidden on mobile, visible md+) ── */}
+                <aside
+                    className={`hidden md:flex flex-col justify-between bg-gray-900 h-screen sticky top-0 flex-shrink-0 transition-all duration-300 ${panel ? "w-52 lg:w-64" : "w-14"} overflow-hidden`}
+                >
+                    {/* Top */}
+                    <div className="flex flex-col w-full">
+                        {/* Brand + toggle */}
+                        <div className="flex items-center justify-between border-b border-gray-700 px-3 py-3">
+                            {panel && (
+                                <div className="flex items-center gap-2 font-serif">
+                                    <i className="fa-solid fa-scale-balanced text-blue-500 text-sm" />
+                                    <span className="text-gray-300 font-bold text-sm">LegalDesk</span>
+                                </div>
+                            )}
+                            <i
+                                className={`fa-solid fa-bars text-gray-200 cursor-pointer text-sm p-1 ${panel ? "" : "m-auto"}`}
+                                onClick={() => setPanel(!panel)}
+                            />
+                        </div>
+                        {/* Nav items */}
+                        <div className="flex flex-col gap-2 px-2 py-4 text-gray-400">
+                            {panelNames.map((ele, i) => (
+                                <div
+                                    key={i}
+                                    title={ele.name}
+                                    className={`flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer text-sm transition-colors ${selectedPanel === ele.name
+                                        ? "bg-gray-800 text-gray-100"
+                                        : "hover:bg-gray-800 hover:text-gray-200"
+                                        }`}
+                                    onClick={() => setSelectedPanel(ele.name)}
+                                >
+                                    <i className={`${ele.classData} flex-shrink-0`} />
+                                    {panel && <span className="truncate">{ele.name}</span>}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    {/* Nav items */}
-                    <div className="flex flex-col gap-2 px-2 py-4 text-gray-400">
+
+                    {/* Bottom – user info */}
+                    <div className="border-t border-gray-800 px-3 py-4 text-white">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="h-8 w-8 bg-gray-700 flex justify-center items-center rounded-full text-sm flex-shrink-0">{data.result.name.charAt(0).toUpperCase()}</div>
+                            {panel && (
+                                <div className="overflow-hidden">
+                                    <p className="text-sm truncate">{data.result.name}</p>
+                                    <p className="text-xs text-gray-500 truncate">{data.result.email}</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex items-center ml-2 gap-3 text-gray-500 cursor-pointer text-xm hover:text-red-400 transition-colors"
+                            onClick={logOutHandler}
+                        >
+                            <i className={`fa-solid fa-arrow-right-from-bracket flex-shrink-0 ${panel ? "" : "m-auto"}`} />
+                            {panel && <span>Sign Out</span>}
+                        </div>
+                    </div>
+                </aside>
+
+                {/* ── Main content ── */}
+                <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+                    {/* Top header */}
+                    <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+                        <div className="flex items-center gap-3">
+                            {/* Mobile brand */}
+                            <i className="fa-solid fa-scale-balanced text-blue-500 md:hidden" />
+                            <h1 className="text-sm font-bold font-serif text-gray-900">Admin Panel</h1>
+                        </div>
+                    </header>
+
+                    {/* Page body */}
+                    <main className="flex-1 bg-gray-50 overflow-y-auto p-2 sm:p-4">
+                        {selectedPanel === "Dashboard"
+                            ? <AdminPanel refrence={refrence.current} />
+                            : <AdminTable lawyerData={lawyerData} />
+                        }
+                    </main>
+
+                    {/* ── Bottom Nav (mobile only) ── */}
+                    <nav className="md:hidden fixed bottom-0 inset-x-0 bg-gray-900 flex border-t border-gray-700 z-20">
                         {panelNames.map((ele, i) => (
-                            <div
+                            <button
                                 key={i}
-                                title={ele.name}
-                                className={`flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer text-sm transition-colors ${selectedPanel === ele.name
-                                    ? "bg-gray-800 text-gray-100"
-                                    : "hover:bg-gray-800 hover:text-gray-200"
-                                    }`}
+                                className={`flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 transition-colors ${selectedPanel === ele.name ? "text-blue-400" : "text-gray-400"}`}
                                 onClick={() => setSelectedPanel(ele.name)}
                             >
-                                <i className={`${ele.classData} flex-shrink-0`} />
-                                {panel && <span className="truncate">{ele.name}</span>}
-                            </div>
+                                <i className={ele.classData} />
+                                <span>{ele.name}</span>
+                            </button>
                         ))}
-                    </div>
-                </div>
-
-                {/* Bottom – user info */}
-                <div className="border-t border-gray-800 px-3 py-4 text-white">
-                    <div className="flex items-center gap-3 mb-3">
-                        <div className="h-8 w-8 bg-gray-700 flex justify-center items-center rounded-full text-sm flex-shrink-0">{data.result.name.charAt(0).toUpperCase()}</div>
-                        {panel && (
-                            <div className="overflow-hidden">
-                                <p className="text-sm truncate">{data.result.name}</p>
-                                <p className="text-xs text-gray-500 truncate">{data.result.email}</p>
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex items-center ml-2 gap-3 text-gray-500 cursor-pointer text-xm hover:text-red-400 transition-colors"
-                        onClick={logOutHandler}
-                    >
-                        <i className={`fa-solid fa-arrow-right-from-bracket flex-shrink-0 ${panel ? "" : "m-auto"}`} />
-                        {panel && <span>Sign Out</span>}
-                    </div>
-                </div>
-            </aside>
-
-            {/* ── Main content ── */}
-            <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-                {/* Top header */}
-                <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-                    <div className="flex items-center gap-3">
-                        {/* Mobile brand */}
-                        <i className="fa-solid fa-scale-balanced text-blue-500 md:hidden" />
-                        <h1 className="text-sm font-bold font-serif text-gray-900">Admin Panel</h1>
-                    </div>
-                </header>
-
-                {/* Page body */}
-                <main className="flex-1 bg-gray-50 overflow-y-auto p-2 sm:p-4">
-                    {selectedPanel === "Dashboard"
-                        ? <AdminPanel refrence={refrence.current} />
-                        : <AdminTable lawyerData={lawyerData} />
-                    }
-                </main>
-
-                {/* ── Bottom Nav (mobile only) ── */}
-                <nav className="md:hidden fixed bottom-0 inset-x-0 bg-gray-900 flex border-t border-gray-700 z-20">
-                    {panelNames.map((ele, i) => (
-                        <button
-                            key={i}
-                            className={`flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 transition-colors ${selectedPanel === ele.name ? "text-blue-400" : "text-gray-400"}`}
-                            onClick={() => setSelectedPanel(ele.name)}
+                        {/* Sign out */}
+                        <button className="flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 text-gray-400"
+                            onClick={logOutHandler}
                         >
-                            <i className={ele.classData} />
-                            <span>{ele.name}</span>
+                            <i className="fa-solid fa-arrow-right-from-bracket text-sm" />
+                            <span>Sign Out</span>
                         </button>
-                    ))}
-                    {/* Sign out */}
-                    <button className="flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 text-gray-400"
-                        onClick={logOutHandler}
-                    >
-                        <i className="fa-solid fa-arrow-right-from-bracket text-sm" />
-                        <span>Sign Out</span>
-                    </button>
-                </nav>
+                    </nav>
 
-                {/* Spacer so content is not hidden by bottom nav on mobile */}
-                <div className="md:hidden h-16" />
+                    {/* Spacer so content is not hidden by bottom nav on mobile */}
+                    <div className="md:hidden h-16" />
+                </div>
             </div>
-        </div>
+
+            {/* Loader Visiable */}
+            {
+                isloader ? <Loader /> : null
+            }
+        </>
     )
 }
 
