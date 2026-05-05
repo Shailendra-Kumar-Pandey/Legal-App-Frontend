@@ -3,8 +3,9 @@ import { toast } from "react-toastify";
 import AdminPanel from "./Nested Components/AdminPanel";
 import AdminTable from './Nested Components/AdminTable'
 
-function AdminDashboard() {
-    let token = JSON.parse(localStorage.getItem('user')).token || "";
+function AdminDashboard({ logOutHandler }) {
+    let data = JSON.parse(localStorage.getItem('user')) || {};
+    let token = data?.token || ""
     const [panel, setPanel] = useState(true)
     const [selectedPanel, setSelectedPanel] = useState("Dashboard")
     const [lawyerData, setLawyerData] = useState([])
@@ -24,7 +25,7 @@ function AdminDashboard() {
 
     async function getAllLawyer() {
         try {
-            let response = await fetch(`${apiURL}admin/getAllLawyers`, {
+            let response = await fetch(`${apiURL}/admin/getAllLawyers`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -48,6 +49,7 @@ function AdminDashboard() {
     }
 
     useEffect(() => {
+        console.log(token)
         if (token) getAllLawyer()
     }, [token])
 
@@ -69,7 +71,7 @@ function AdminDashboard() {
                             </div>
                         )}
                         <i
-                            className="fa-solid fa-bars text-gray-200 cursor-pointer text-sm p-1"
+                            className={`fa-solid fa-bars text-gray-200 cursor-pointer text-sm p-1 ${panel ? "" : "m-auto"}`}
                             onClick={() => setPanel(!panel)}
                         />
                     </div>
@@ -95,16 +97,18 @@ function AdminDashboard() {
                 {/* Bottom – user info */}
                 <div className="border-t border-gray-800 px-3 py-4 text-white">
                     <div className="flex items-center gap-3 mb-3">
-                        <div className="h-8 w-8 bg-gray-700 flex justify-center items-center rounded-full text-sm flex-shrink-0">A</div>
+                        <div className="h-8 w-8 bg-gray-700 flex justify-center items-center rounded-full text-sm flex-shrink-0">{data.result.name.charAt(0).toUpperCase()}</div>
                         {panel && (
                             <div className="overflow-hidden">
-                                <p className="text-sm truncate">Admin</p>
-                                <p className="text-xs text-gray-500 truncate">Admin</p>
+                                <p className="text-sm truncate">{data.result.name}</p>
+                                <p className="text-xs text-gray-500 truncate">{data.result.email}</p>
                             </div>
                         )}
                     </div>
-                    <div className="flex items-center gap-3 text-gray-500 cursor-pointer text-sm hover:text-red-400 transition-colors">
-                        <i className="fa-solid fa-arrow-right-from-bracket flex-shrink-0" />
+                    <div className="flex items-center ml-2 gap-3 text-gray-500 cursor-pointer text-xm hover:text-red-400 transition-colors"
+                        onClick={logOutHandler}
+                    >
+                        <i className={`fa-solid fa-arrow-right-from-bracket flex-shrink-0 ${panel ? "" : "m-auto"}`} />
                         {panel && <span>Sign Out</span>}
                     </div>
                 </div>
@@ -122,7 +126,7 @@ function AdminDashboard() {
                 </header>
 
                 {/* Page body */}
-                <main className="flex-1 overflow-y-auto p-2 sm:p-4">
+                <main className="flex-1 bg-gray-50 overflow-y-auto p-2 sm:p-4">
                     {selectedPanel === "Dashboard"
                         ? <AdminPanel refrence={refrence.current} />
                         : <AdminTable lawyerData={lawyerData} />
@@ -142,7 +146,9 @@ function AdminDashboard() {
                         </button>
                     ))}
                     {/* Sign out */}
-                    <button className="flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 text-gray-400">
+                    <button className="flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 text-gray-400"
+                        onClick={logOutHandler}
+                    >
                         <i className="fa-solid fa-arrow-right-from-bracket text-sm" />
                         <span>Sign Out</span>
                     </button>

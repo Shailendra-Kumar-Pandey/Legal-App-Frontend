@@ -34,60 +34,60 @@ const AdminTable = ({ lawyerData }) => {
         {/* Header row */}
         <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center mb-3 gap-2">
           <h1 className="text-base sm:text-lg font-serif font-bold text-gray-900">Manage Lawyers</h1>
-          <select className="border border-gray-200 bg-white rounded px-3 py-1.5 text-sm focus:outline-none">
+          {/* <select className="border border-gray-200 bg-white rounded px-3 py-1.5 text-sm focus:outline-none">
             <option>All</option>
             <option>Approved</option>
             <option>Pending</option>
             <option>Blocked</option>
-          </select>
+          </select> */}
         </div>
 
         {/* Table – horizontally scrollable on small screens */}
         <div className="bg-white shadow rounded-lg overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
-              <tr>
+              <tr className='border-b border-gray-200'>
                 <th className="p-3 text-left whitespace-nowrap">Name</th>
-                <th className="p-3 text-left whitespace-nowrap hidden sm:table-cell">Specialization</th>
-                <th className="p-3 text-left whitespace-nowrap hidden md:table-cell">Experience</th>
-                <th className="p-3 text-left whitespace-nowrap hidden lg:table-cell">Win Ratio</th>
-                <th className="p-3 text-left whitespace-nowrap hidden lg:table-cell">Fee Range</th>
-                <th className="p-3 text-left whitespace-nowrap">Status</th>
-                <th className="p-3 text-left whitespace-nowrap">Actions</th>
+                <th className="p-3 text-center whitespace-nowrap hidden sm:table-cell">Specialization</th>
+                <th className="p-3 text-center whitespace-nowrap hidden md:table-cell">Experience</th>
+                <th className="p-3 text-center whitespace-nowrap hidden lg:table-cell">Win Ratio</th>
+                <th className="p-3 text-center whitespace-nowrap hidden lg:table-cell">Fee Range</th>
+                <th className="p-3 text-center whitespace-nowrap">Status</th>
+                <th className="p-3 text-center whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {lawyerData.map((lawyer, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-colors">
 
-                  <td className="p-3">
+                  <td className="p-3 text-left">
                     <p className="font-medium text-gray-900 whitespace-nowrap">{lawyer.userId.name}</p>
                     <p className="text-gray-400 text-xs">{lawyer.userId.email}</p>
                   </td>
 
-                  <td className="p-3 text-sm hidden sm:table-cell whitespace-nowrap">{lawyer.lawyerType}</td>
+                  <td className="p-3 text-center text-sm hidden sm:table-cell whitespace-nowrap">{lawyer.lawyerType}</td>
 
-                  <td className="p-3 text-gray-900 hidden md:table-cell whitespace-nowrap">{lawyer.experienceYears} yrs</td>
+                  <td className="p-3 text-center text-gray-900 hidden md:table-cell whitespace-nowrap">{lawyer.experienceYears} yrs</td>
 
-                  <td className="p-3 text-sm font-medium text-gray-900 hidden lg:table-cell">{lawyer.winRatio}</td>
+                  <td className="p-3 text-center text-sm font-medium text-gray-900 hidden lg:table-cell">{lawyer.winRatio}</td>
 
-                  <td className="p-3 text-sm text-gray-900 hidden lg:table-cell whitespace-nowrap">
+                  <td className="p-3 text-center text-sm text-gray-900 hidden lg:table-cell whitespace-nowrap">
                     ₹{lawyer.feeMin} – ₹{lawyer.feeMax}
                   </td>
 
-                  <td className="p-3">
+                  <td className="p-3 text-center">
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${getStatusColor(lawyer.status)}`}>
                       {lawyer.status}
                     </span>
                   </td>
 
-                  <td className="p-3">
+                  <td className="p-3 text-center">
                     <button
-                      className="bg-gray-900 text-gray-50 rounded px-2 py-1 text-xs sm:text-sm cursor-pointer hover:bg-gray-700 transition-colors whitespace-nowrap"
+                      className=" text-gray-500 text-xs sm:text-sm cursor-pointer  hover:text-gray-900 transition-colors whitespace-nowrap"
                       onClick={() => openModal(lawyer)}
                     >
                       <i className="fa-regular fa-eye mr-1" />
-                      View
+
                     </button>
                   </td>
 

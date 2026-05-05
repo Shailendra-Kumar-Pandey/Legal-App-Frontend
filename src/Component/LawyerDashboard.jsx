@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function LawyerDashboard() {
+function LawyerDashboard({ logOutHandler }) {
     const [panel, setPanel] = useState(true)
     const [selectedPanel, setSelectedPanel] = useState("Dashboard")
 
@@ -146,7 +146,9 @@ function LawyerDashboard() {
                             </div>
                         )}
                     </div>
-                    <div className="flex items-center gap-3 text-gray-500 cursor-pointer text-sm hover:text-red-400 transition-colors">
+                    <div className="flex items-center gap-3 text-gray-500 cursor-pointer text-sm hover:text-red-400 transition-colors"
+                        onClick={logOutHandler}
+                    >
                         <i className="fa-solid fa-arrow-right-from-bracket flex-shrink-0" />
                         {panel && <span>Sign Out</span>}
                     </div>
@@ -179,7 +181,9 @@ function LawyerDashboard() {
                             <span className="hidden xs:block truncate">{ele.name}</span>
                         </button>
                     ))}
-                    <button className="flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 text-gray-400">
+                    <button className="flex-1 flex flex-col items-center justify-center py-2 text-xs gap-1 text-gray-400"
+                        onClick={logOutHandler}
+                    >
                         <i className="fa-solid fa-arrow-right-from-bracket text-sm" />
                         <span className="hidden xs:block">Sign Out</span>
                     </button>

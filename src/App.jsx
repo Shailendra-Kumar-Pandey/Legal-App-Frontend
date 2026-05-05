@@ -1,31 +1,42 @@
-import { Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { lazy, Suspense } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import Login from "./Component/Login"
 import NotFound from "./Component/NotFound";
-import AdminDashboard from "./Component/AdminDashboard";
 import Registration from "./Component/Registration";
 import ProtectRoute from "./Component/ProtectRoute";
 import CompleteLawyerProfile from "./Component/CompleteLawyerProfile";
-import ClientPortal from "./Component/ClientPortal";
-import LawyerDashboard from "./Component/LawyerDashboard";
+
+
+const LazyAdminDashboard = lazy(() => import("./Component/AdminDashboard"))
+const LazyClientPortal = lazy(() => import("./Component/ClientPortal"))
+const LazyLawyerDashboard = lazy(() => import("./Component/LawyerDashboard"))
 
 
 function App() {
+  const navigator = useNavigate();
 
+  const logOutHandler = () => {
+    localStorage.removeItem('user')
+    toast.success("Logged out successfully")
+    navigator('/')
+  }
 
 
   return (
     <>
       <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/completeProfile" element={<CompleteLawyerProfile />} />
-        <Route path="/admin-dashboard" element={<ProtectRoute><AdminDashboard /></ProtectRoute>} />
-        <Route path="/client-dashboard" element={<ProtectRoute><ClientPortal /></ProtectRoute>} />
-        <Route path="/lawyer-dashboard" element={<ProtectRoute><LawyerDashboard /></ProtectRoute>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/completeProfile" element={<CompleteLawyerProfile />} />
+          <Route path="/admin-dashboard" element={<ProtectRoute><LazyAdminDashboard logOutHandler={logOutHandler} /></ProtectRoute>} />
+          <Route path="/client-dashboard" element={<ProtectRoute><LazyClientPortal logOutHandler={logOutHandler} /></ProtectRoute>} />
+          <Route path="/lawyer-dashboard" element={<ProtectRoute><LazyLawyerDashboard logOutHandler={logOutHandler} /></ProtectRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </>
   )
 }
