@@ -119,7 +119,7 @@ const AdminTable = ({ lawyerData }) => {
                 {[
                   { label: "Name", value: selectedLawyer.userId.name },
                   { label: "Email", value: selectedLawyer.userId.email },
-                  { label: "Phone", value: selectedLawyer.userId.Phone },
+                  { label: "Phone", value: selectedLawyer.userId.phone },
                   { label: "Bar Council ID", value: selectedLawyer.barCouncilId },
                   { label: "Specialization", value: selectedLawyer.lawyerType },
                   { label: "Experience", value: `${selectedLawyer.experienceYears} Years` },

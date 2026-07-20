@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
 
+  const apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLawyer, setIsLawyer] = useState(false)
 
@@ -14,7 +16,7 @@ const Login = () => {
   async function submit(payload) {
     console.log(payload)
     try {
-      let response = await fetch("http://localhost:5050/auth/userlogin", {
+      let response = await fetch(`${apiURL}/auth/userlogin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
